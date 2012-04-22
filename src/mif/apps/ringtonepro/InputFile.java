@@ -3,6 +3,7 @@ package mif.apps.ringtonepro;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.app.Activity;
@@ -132,12 +133,6 @@ public class InputFile extends Activity
 		//清空列表
 		this.directoryEntries.clear();
 		
-		//如果不是根目录则添加上一级目录项
-		if (this.currentDirectory.getParent() != null){
-			this.directoryEntries.add(new InputFileListItem(getString(R.string.up_one_level),getString(R.string.none), getResources().getDrawable(R.drawable.uponelevel),true));
-		}
-			
-
 		Drawable AudioIcon = getResources().getDrawable(R.drawable.audio);
 		Drawable FolderIcon = getResources().getDrawable(R.drawable.folder);
 		for (File currentFile : files)
@@ -152,7 +147,17 @@ public class InputFile extends Activity
 				this.directoryEntries.add(new InputFileListItem(fileName,currentFile.getAbsolutePath(), AudioIcon,false));
 			}
 		}
-		Collections.sort(this.directoryEntries);
+		
+		Collections.sort(this.directoryEntries,new Comparator<InputFileListItem>() { 
+	        public int compare(InputFileListItem a, InputFileListItem b) { 
+	            return a.getDir().compareToIgnoreCase(b.getDir()); 
+	            } 
+		});
+		
+		//如果不是根目录则添加上一级目录项
+		if (this.currentDirectory.getParent() != null){
+			this.directoryEntries.add(0,new InputFileListItem(getString(R.string.up_one_level),getString(R.string.none), getResources().getDrawable(R.drawable.uponelevel),true));
+		}
 		//创建Adapter
 		listAdapter = new InputFileListAdapter(this,this.directoryEntries);
 		//添加Adapter
@@ -231,6 +236,13 @@ public class InputFile extends Activity
 	public boolean onPrepareOptionsMenu(Menu menu)
 	{
 		return super.onPrepareOptionsMenu(menu);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		m_MyDatabaseHelper.close();
+		super.onDestroy();
 	}
 	
 }
