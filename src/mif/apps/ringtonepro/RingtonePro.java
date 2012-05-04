@@ -171,10 +171,7 @@ public class RingtonePro extends Activity {
    //点击播放试听
 	public void onStart(String p)
     {
-			/*Uri path= Uri.parse(p);
-    		 player.stop();
-    	     player = MediaPlayer.create(this, path);
-		     player.start();*/
+
 		if(prePath.equals(p)&&player.isPlaying())
 		{
 			player.stop();
@@ -198,26 +195,21 @@ public class RingtonePro extends Activity {
 
       File sdfile = new File(p);
       Log.i("File",p);
-      /*ContentValues values = new ContentValues();  
+      ContentValues values = new ContentValues();  
       values.put(MediaStore.MediaColumns.DATA, sdfile.getAbsolutePath());  
       values.put(MediaStore.MediaColumns.TITLE, sdfile.getName());
       values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/*");   
       values.put(MediaStore.Audio.Media.IS_RINGTONE, true);  
       values.put(MediaStore.Audio.Media.IS_NOTIFICATION, false);  
       values.put(MediaStore.Audio.Media.IS_ALARM, false);  
-      values.put(MediaStore.Audio.Media.IS_MUSIC, false);  */
+      values.put(MediaStore.Audio.Media.IS_MUSIC, false);  
       
-//      Uri uri = MediaStore.Audio.Media.getContentUriForPath(sdfile.getAbsolutePath());
-//      Uri newUri = this.getContentResolver().insert(uri, values);
+      Uri uri = MediaStore.Audio.Media.getContentUriForPath(sdfile.getAbsolutePath());
+      Uri newUri = this.getContentResolver().insert(uri, values);
       
  
-/*      RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE, newUri); 
-      Toast.makeText( getApplicationContext (),R.string.setRingtoneSucceed, Toast.LENGTH_SHORT ).show();*/
-      Uri ringtoneUri = Uri.parse(sdfile.getAbsolutePath()); 
-   // 设置铃声
-   RingtoneManager.setActualDefaultRingtoneUri(this,
-   RingtoneManager.TYPE_RINGTONE, ringtoneUri );
-   Toast.makeText(getApplicationContext(), "铃声设置成功！！", Toast.LENGTH_SHORT).show();
+      RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE, newUri); 
+      Toast.makeText( getApplicationContext (),R.string.setRingtoneSucceed, Toast.LENGTH_SHORT ).show();
       System.out.println("setMyRingtone()-------------");
     }  
   //设置--提示音
@@ -226,7 +218,7 @@ public class RingtonePro extends Activity {
       player.stop();
 
       File sdfile = new File(p);    
-     /* ContentValues values = new ContentValues();  
+      ContentValues values = new ContentValues();  
       values.put(MediaStore.MediaColumns.DATA, sdfile.getAbsolutePath());  
       values.put(MediaStore.MediaColumns.TITLE, sdfile.getName());
       values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/*");   
@@ -240,12 +232,7 @@ public class RingtonePro extends Activity {
       
  
       RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION, newUri); 
-      Toast.makeText( getApplicationContext (),R.string.setNotificationSucceed, Toast.LENGTH_SHORT ).show();*/
-      Uri ringtoneUri = Uri.parse(sdfile.getAbsolutePath()); 
-      // 设置铃声
-      RingtoneManager.setActualDefaultRingtoneUri(this,
-      RingtoneManager.TYPE_NOTIFICATION, ringtoneUri );
-      Toast.makeText(getApplicationContext(), "提示音设置成功！！", Toast.LENGTH_SHORT).show();
+      Toast.makeText( getApplicationContext (),R.string.setNotificationSucceed, Toast.LENGTH_SHORT ).show();
       System.out.println("setMyNOTIFICATION-------------");
     } 
   //设置--闹铃音
