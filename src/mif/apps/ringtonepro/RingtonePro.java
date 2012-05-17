@@ -200,13 +200,23 @@ public class RingtonePro extends Activity {
       values.put(MediaStore.MediaColumns.TITLE, sdfile.getName());
       values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/*");   
       values.put(MediaStore.Audio.Media.IS_RINGTONE, true);  
-      values.put(MediaStore.Audio.Media.IS_NOTIFICATION, false);  
-      values.put(MediaStore.Audio.Media.IS_ALARM, false);  
-      values.put(MediaStore.Audio.Media.IS_MUSIC, false);  
       
       Uri uri = MediaStore.Audio.Media.getContentUriForPath(sdfile.getAbsolutePath());
-      Uri newUri = this.getContentResolver().insert(uri, values);
-      
+      Uri media = Uri.parse("content://media/internal/audio/media");
+      Uri newUri = null;
+      //查询库中是否已存在该文件
+      Cursor cur =  this.getContentResolver().query(media, null, "title = '"+sdfile.getName()+"'", null, null);
+      if(!cur.moveToFirst()){//不存在则插入
+    	  newUri = this.getContentResolver().insert(uri, values);
+//    	  System.out.println("insert new");
+      }else{//存在则更新
+    	  //数据库中的_id
+    	  String index = cur.getString(cur.getColumnIndex("_id"));
+    	  this.getContentResolver().update(uri, values, "_id = '"+index+"'", null);
+    	  newUri = Uri.parse("content://media/internal/audio/media/"+index);
+//    	  System.out.println("update");
+      }
+      cur.close();
  
       RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE, newUri); 
       Toast.makeText( getApplicationContext (),R.string.setRingtoneSucceed, Toast.LENGTH_SHORT ).show();
@@ -222,14 +232,24 @@ public class RingtonePro extends Activity {
       values.put(MediaStore.MediaColumns.DATA, sdfile.getAbsolutePath());  
       values.put(MediaStore.MediaColumns.TITLE, sdfile.getName());
       values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/*");   
-      values.put(MediaStore.Audio.Media.IS_RINGTONE, false);  
       values.put(MediaStore.Audio.Media.IS_NOTIFICATION, true);  
-      values.put(MediaStore.Audio.Media.IS_ALARM, false);  
-      values.put(MediaStore.Audio.Media.IS_MUSIC, false);  
       
       Uri uri = MediaStore.Audio.Media.getContentUriForPath(sdfile.getAbsolutePath());
-      Uri newUri = this.getContentResolver().insert(uri, values);
-      
+      Uri media = Uri.parse("content://media/internal/audio/media");
+      Uri newUri = null;
+      //查询库中是否已存在该文件
+      Cursor cur =  this.getContentResolver().query(media, null, "title = '"+sdfile.getName()+"'", null, null);
+      if(!cur.moveToFirst()){//不存在则插入
+    	  newUri = this.getContentResolver().insert(uri, values);
+//    	  System.out.println("insert new");
+      }else{//存在则更新
+    	  //数据库中的_id
+    	  String index = cur.getString(cur.getColumnIndex("_id"));
+    	  this.getContentResolver().update(uri, values, "_id = '"+index+"'", null);
+    	  newUri = Uri.parse("content://media/internal/audio/media/"+index);
+//    	  System.out.println("update");
+      }
+      cur.close();
  
       RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION, newUri); 
       Toast.makeText( getApplicationContext (),R.string.setNotificationSucceed, Toast.LENGTH_SHORT ).show();
@@ -245,14 +265,24 @@ public class RingtonePro extends Activity {
       values.put(MediaStore.MediaColumns.DATA, sdfile.getAbsolutePath());  
       values.put(MediaStore.MediaColumns.TITLE, sdfile.getName());
       values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/*");   
-      values.put(MediaStore.Audio.Media.IS_RINGTONE, false);  
-      values.put(MediaStore.Audio.Media.IS_NOTIFICATION, false);  
       values.put(MediaStore.Audio.Media.IS_ALARM, true);  
-      values.put(MediaStore.Audio.Media.IS_MUSIC, false);  
       
       Uri uri = MediaStore.Audio.Media.getContentUriForPath(sdfile.getAbsolutePath());
-      Uri newUri = this.getContentResolver().insert(uri, values);
-      
+      Uri media = Uri.parse("content://media/internal/audio/media");
+      Uri newUri = null;
+      //查询库中是否已存在该文件
+      Cursor cur =  this.getContentResolver().query(media, null, "title = '"+sdfile.getName()+"'", null, null);
+      if(!cur.moveToFirst()){//不存在则插入
+    	  newUri = this.getContentResolver().insert(uri, values);
+//    	  System.out.println("insert new");
+      }else{//存在则更新
+    	  //数据库中的_id
+    	  String index = cur.getString(cur.getColumnIndex("_id"));
+    	  this.getContentResolver().update(uri, values, "_id = '"+index+"'", null);
+    	  newUri = Uri.parse("content://media/internal/audio/media/"+index);
+//    	  System.out.println("update");
+      }
+      cur.close();
  
       RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_ALARM, newUri); 
       Toast.makeText( getApplicationContext (),R.string.setAlarmSucceed, Toast.LENGTH_SHORT ).show();
